@@ -16,7 +16,20 @@ require(['lib/constants', 'hero', 'gamepad'], function(constants, Hero, GamepadH
         c.clearRect(0, 0, canvas.width, canvas.height);
         c.fillStyle = constants.canvas.colors.background;
         c.fillRect(0, 0, canvas.width, canvas.height);
-        
+        if(hero.x - hero.radius < 0) {
+            hero.velocity.x = 0;
+            hero.x = hero.radius;
+        } else if(hero.x + hero.radius > canvas.width) {
+            hero.velocity.x = 0;
+            hero.x = canvas.width - hero.radius;
+        }
+        if(hero.y - hero.radius < 0) {
+            hero.y = hero.radius;
+            hero.velocity.y = 0;
+        } else if(hero.y + hero.radius > canvas.height) {
+            hero.velocity.y = 0;
+            hero.y = canvas.height - hero.radius;
+        }
         hero.draw(c);
     }
     gameLoop();
