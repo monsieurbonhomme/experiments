@@ -1,0 +1,13 @@
+{
+  "name": "monsieur-bonhomme-experiments",
+  "version": "0.0.1",
+  "description": "JS experiments and stuff.",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "express": "^4.16.3"
+  }
+}
