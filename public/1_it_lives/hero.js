@@ -33,7 +33,7 @@ define(['lib/constants'], function(constants) {
     }
     class Hero {
         constructor() {
-            this.radius = 10;
+            this.size = 20;
             this.color = '#0074D9';
             this.x = 100;
             this.y = 100;
@@ -66,12 +66,6 @@ define(['lib/constants'], function(constants) {
 
             this.velocity.x += axes[0];
             this.velocity.y += axes[1];
-            if(this.velocity.x > this.last) {
-                this.last = this.velocity.x;
-                console.log(this.last)
-            }
-            //this.velocityX += this.force.x - 0.1;
-            //this.velocityY += this.force.y - 0.1;
 
             this.x += this.velocity.x;
             this.y += this.velocity.y;
@@ -85,7 +79,7 @@ define(['lib/constants'], function(constants) {
                 }
             }
             c.beginPath();
-            c.arc(this.x, this.y, this.radius, 0, constants.completeCircle, false);
+            c.arc(this.x, this.y, this.size / 2, 0, constants.completeCircle, false);
             c.fill();
         }
     }

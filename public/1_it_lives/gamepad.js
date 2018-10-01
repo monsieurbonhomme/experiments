@@ -22,7 +22,6 @@ define([], function() {
         getAxes(g) {
             if(this.lo) {
                 this.lo = false;
-                console.log(g)
             }
             let toReturn = {
                 l: [this.getAxeLength(g.axes[0]), this.getAxeLength(g.axes[1])]
