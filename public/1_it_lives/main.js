@@ -12,6 +12,7 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable'], function(constants,
         hero.move(config.axes.l)
     });
     let collideable = new CollideAble(300, 300, 20);
+    collideable.collidesWith(hero);
     function gameLoop() {
         requestAnimationFrame(gameLoop);
         c.clearRect(0, 0, canvas.width, canvas.height);
@@ -32,10 +33,7 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable'], function(constants,
             hero.y = canvas.height - hero.radius;
         }
 
-        if(collideable.isColliding(hero)) {
-        }
-
-        collideable.draw(c);
+        collideable.update(c);
         hero.draw(c);
     }
     gameLoop();
