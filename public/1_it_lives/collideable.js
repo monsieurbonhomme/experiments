@@ -7,6 +7,7 @@ define(['lib/constants'], function (constants) {
             this.color = '#85144b';
             this.collideColor = '#F012BE';
             this.notCollideColor = '#85144b';
+            this.mass = 0.9;
             this.velocity = {
                 x: 0,
                 y: 0
@@ -55,7 +56,7 @@ define(['lib/constants'], function (constants) {
             let xPart = xDist / part;
             let yPart = 1 - xPart;
 
-            let velo = Math.abs(t.velocity.x + t.velocity.y);
+            let velo = Math.abs(t.velocity.x + t.velocity.y) * (t.strength - this.mass);
             this.velocity.x = xPart * velo * direction.x;
             this.velocity.y = yPart * velo * direction.y;
 
@@ -64,8 +65,11 @@ define(['lib/constants'], function (constants) {
         checkCollisions() {
             for(let i = 0; i < this.collisionChecks.length; i++) {
                 if(this.isColliding(this.collisionChecks[i])) {
-                    this.correctPosition(this.collisionChecks[i]);
-                    this.slipsWith(this.collisionChecks[i]);
+                    this.collisionChecks[i].correctPosition(this);
+                    if(this.mass >= this.collisionChecks[i].strength) {
+                    } else {
+                        this.slipsWith(this.collisionChecks[i]);
+                    }
                 }
             }
         }

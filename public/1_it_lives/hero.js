@@ -38,6 +38,7 @@ define(['lib/constants'], function(constants) {
             this.x = 100;
             this.y = 100;
             this.speed = .5;
+            this.strength = 1;
             this.velocity = {
                 x: 5,
                 y: 0
@@ -47,6 +48,24 @@ define(['lib/constants'], function(constants) {
                 y: 0
             };
             this.last = 0;
+        }
+        correctPosition(t) {
+            let direction = {
+                x: this.x < t.x ? -1 : 1,
+                y: this.y < t.y ? -1 : 1,
+            }
+            let hyp = Math.sqrt((t.x - this.x) * (t.x - this.x) + (t.y - this.y) * (t.y - this.y));
+            let missingHyp = (t.radius + this.radius) - hyp;
+            let xDist = (this.x - t.x);
+            let yDist = (this.x - t.x);
+            let part = xDist + yDist;
+            let xPart = xDist / part;
+            let yPart = 1 - xPart;
+            let missingTotal = Math.sqrt(missingHyp);
+            let missingX = xPart * missingTotal;
+            let missingY = yPart * missingTotal;
+            this.x += missingX * direction.x;
+            this.y += missingY * direction.y;
         }
 
         updateVelocity(tax) {
