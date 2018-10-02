@@ -12,7 +12,7 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable'], function(constants,
         hero.move(config.axes.l)
     });
     let collideable = new CollideAble(300, 300, 20);
-    collideable.collidesWith(hero);
+    collideable.addCollider(hero);
     function gameLoop() {
         requestAnimationFrame(gameLoop);
         c.clearRect(0, 0, canvas.width, canvas.height);

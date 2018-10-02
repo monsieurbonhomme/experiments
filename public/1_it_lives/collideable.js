@@ -14,24 +14,63 @@ define(['lib/constants'], function (constants) {
             this.collisionChecks = [];
         }
 
-        collidesWith(t) {
+        addCollider(t) {
             this.collisionChecks.push(t);
         }
 
         isColliding(t) {
-            if ((this.x - t.x) * (this.x - t.x) + (this.y - t.y) * (this.y - t.y) < ((this.size + t.size) / 2) * ((this.size + t.size) / 2)) {
-                this.velocity = t.velocity;
-                this.color = this.collideColor;
-            } else {
-                this.color = this.notCollideColor;
+            return ((this.x - t.x) * (this.x - t.x) + (this.y - t.y) * (this.y - t.y) < ((this.size + t.size) / 2) * ((this.size + t.size) / 2));
+        }
+        get radius() {
+            return this.size / 2;
+        }
+
+        correctPosition(t) {
+            let direction = {
+                x: this.x < t.x ? -1 : 1,
+                y: this.y < t.y ? -1 : 1,
             }
+            let hyp = Math.sqrt((t.x - this.x) * (t.x - this.x) + (t.y - this.y) * (t.y - this.y));
+            let missingHyp = (t.radius + this.radius) - hyp;
+            let xDist = (this.x - t.x);
+            let yDist = (this.x - t.x);
+            let part = xDist + yDist;
+            let xPart = xDist / part;
+            let yPart = 1 - xPart;
+            let missingTotal = Math.sqrt(missingHyp);
+            let missingX = xPart * missingTotal;
+            let missingY = yPart * missingTotal;
+            this.x += missingX * direction.x;
+            this.y += missingY * direction.y;
+        }
+
+        slipsWith(t) {
+            let direction = {
+                x: this.x < t.x ? -1 : 1,
+                y: this.y < t.y ? -1 : 1,
+            }
+            let xDist = (this.x - t.x);
+            let yDist = (this.x - t.x);
+            let part = xDist + yDist;
+            let xPart = xDist / part;
+            let yPart = 1 - xPart;
+
+            let velo = Math.abs(t.velocity.x + t.velocity.y) + 1;
+            this.velocity.x = xPart * velo * direction.x;
+            this.velocity.y = yPart * velo * direction.y;
+
+        }
+
+        collidesWith(t) {
+            this.velocity.x = t.velocity.x;
+            this.velocity.y = t.velocity.y;
         }
 
         checkCollisions() {
             for(let i = 0; i < this.collisionChecks.length; i++) {
                 if(this.isColliding(this.collisionChecks[i])) {
-                    this.velocity.x = this.collisionChecks[i].velocity.y;
-                    this.velocity.y = this.collisionChecks[i].velocity.x;
+                    this.correctPosition(this.collisionChecks[i]);
+                    this.slipsWith(this.collisionChecks[i]);
                 }
             }
         }

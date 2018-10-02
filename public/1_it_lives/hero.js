@@ -37,7 +37,7 @@ define(['lib/constants'], function(constants) {
             this.color = '#0074D9';
             this.x = 100;
             this.y = 100;
-            this.speed = 1.1;
+            this.speed = .5;
             this.velocity = {
                 x: 5,
                 y: 0
@@ -70,7 +70,9 @@ define(['lib/constants'], function(constants) {
             this.x += this.velocity.x;
             this.y += this.velocity.y;
         }
-
+        get radius() {
+            return this.size / 2;
+        }
         draw(c) {
             c.fillStyle = this.color;
             if(DEBUG) {
