@@ -3,7 +3,7 @@ require.config({
         'lib': '/sources/js'
     }
 });
-require(['lib/constants', 'hero', 'gamepad', 'collideable'], function(constants, Hero, GamepadHandler, CollideAble) {
+require(['lib/constants', 'hero', 'gamepad', 'collideable', 'follower'], function(constants, Hero, GamepadHandler, CollideAble, Follower) {
     const canvas = document.querySelector('canvas');
     const c = canvas.getContext('2d');
     let hero = new Hero();
@@ -12,7 +12,15 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable'], function(constants,
         hero.move(config.axes.l)
     });
     let collideable = new CollideAble(300, 300, 20);
+    let collideable2 = new CollideAble(200, 300, 20);
+    let collideable3 = new CollideAble(100, 300, 20);
     collideable.addCollider(hero);
+    collideable2.addCollider(hero);
+    collideable3.addCollider(hero);
+    let followers = []
+    for (let i = 0; i < 4; i++) {
+        followers.push(new Follower(hero, (i+1) * 20))
+    }
     function checkGameScreenCollision(t, bounce) {
         if(t.x - t.radius < 0) {
             t.velocity.x = bounce ? -t.velocity.x : 0;
@@ -37,8 +45,15 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable'], function(constants,
 
         checkGameScreenCollision(hero);
         checkGameScreenCollision(collideable, true);
+        checkGameScreenCollision(collideable2, true);
+        checkGameScreenCollision(collideable3, true);
 
         collideable.update(c);
+        collideable2.update(c);
+        collideable3.update(c);
+        for (let i = 0; i < followers.length; i++) {
+            followers[i].update(c)
+        }
         hero.draw(c);
     }
     gameLoop();

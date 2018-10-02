@@ -1,13 +1,9 @@
-define(['lib/constants'], function (constants) {
-    class Collideable {
+define(['lib/constants', './circle'], function (constants, Circle) {
+    class Collideable extends Circle{
         constructor(x, y, size) {
-            this.x = x;
-            this.y = y;
-            this.size = size;
+            super(x, y, size);
             this.color = '#85144b';
-            this.collideColor = '#F012BE';
-            this.notCollideColor = '#85144b';
-            this.mass = 0.9;
+            this.mass = 1.2;
             this.velocity = {
                 x: 0,
                 y: 0
@@ -56,7 +52,7 @@ define(['lib/constants'], function (constants) {
             let xPart = xDist / part;
             let yPart = 1 - xPart;
 
-            let velo = Math.abs(t.velocity.x + t.velocity.y) * (t.strength - this.mass);
+            let velo = Math.abs(t.velocity.x + t.velocity.y) * Math.min((t.strength - this.mass), 0);
             this.velocity.x = xPart * velo * direction.x;
             this.velocity.y = yPart * velo * direction.y;
 
