@@ -13,25 +13,30 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable'], function(constants,
     });
     let collideable = new CollideAble(300, 300, 20);
     collideable.addCollider(hero);
+    function checkGameScreenCollision(t, bounce) {
+        if(t.x - t.radius < 0) {
+            t.velocity.x = bounce ? -t.velocity.x : 0;
+            t.x = t.radius;
+        } else if(t.x + t.radius > canvas.width) {
+            t.velocity.x = bounce ? -t.velocity.x : 0;
+            t.x = canvas.width - t.radius;
+        }
+        if(t.y - t.radius < 0) {
+            t.y = t.radius;
+            t.velocity.y = bounce ? -t.velocity.y : 0;
+        } else if(t.y + t.radius > canvas.height) {
+            t.velocity.y = bounce ? -t.velocity.y : 0;
+            t.y = canvas.height - t.radius;
+        }
+    }
     function gameLoop() {
         requestAnimationFrame(gameLoop);
         c.clearRect(0, 0, canvas.width, canvas.height);
         c.fillStyle = constants.canvas.colors.background;
         c.fillRect(0, 0, canvas.width, canvas.height);
-        if(hero.x - hero.radius < 0) {
-            hero.velocity.x = 0;
-            hero.x = hero.radius;
-        } else if(hero.x + hero.radius > canvas.width) {
-            hero.velocity.x = 0;
-            hero.x = canvas.width - hero.radius;
-        }
-        if(hero.y - hero.radius < 0) {
-            hero.y = hero.radius;
-            hero.velocity.y = 0;
-        } else if(hero.y + hero.radius > canvas.height) {
-            hero.velocity.y = 0;
-            hero.y = canvas.height - hero.radius;
-        }
+
+        checkGameScreenCollision(hero);
+        checkGameScreenCollision(collideable, true);
 
         collideable.update(c);
         hero.draw(c);

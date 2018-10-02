@@ -55,15 +55,10 @@ define(['lib/constants'], function (constants) {
             let xPart = xDist / part;
             let yPart = 1 - xPart;
 
-            let velo = Math.abs(t.velocity.x + t.velocity.y) + 1;
+            let velo = Math.abs(t.velocity.x + t.velocity.y);
             this.velocity.x = xPart * velo * direction.x;
             this.velocity.y = yPart * velo * direction.y;
 
-        }
-
-        collidesWith(t) {
-            this.velocity.x = t.velocity.x;
-            this.velocity.y = t.velocity.y;
         }
 
         checkCollisions() {
