@@ -2,35 +2,19 @@ define(['./circle', 'sparkle'], function(Circle, Sparkle) {
     class Hero extends Circle {
         constructor() {
             super(100, 100, 20, '#0074D9');
-            this.speed = .9;
+            this.speed = .4;
             this.strength = 1;
-            this.velocity = {
-                x: 5,
-                y: 0
-            };
-            this.last = 0;
             this.sparkles = [];
             this.timer = 0;
         }
 
-        updateVelocity(tax) {
-            this.velocity = {
-                x: this.velocity.x * this.speed * tax,
-                y: this.velocity.y * this.speed * tax
-            }
-        }
-
         move(axes) {
-            this.updateVelocity(.8);
-
-            this.velocity.x += axes[0];
-            this.velocity.y += axes[1];
-
-            this.x += this.velocity.x;
-            this.y += this.velocity.y;
+            this.velocity.x += axes[0] * this.speed;
+            this.velocity.y += axes[1] * this.speed;
         }
 
         sparkle(c) {
+            this.timer++;
             if(this.timer % 1 === 0) {
                 this.sparkles.push(new Sparkle(this.x + Math.random() * this.radius - this.radius/2, this.y + Math.random() * this.radius - this.radius/2));
             }
@@ -44,9 +28,9 @@ define(['./circle', 'sparkle'], function(Circle, Sparkle) {
         }
 
         update(c) {
-            this.timer++;
+            super.update();
             //this.sparkle(c);
-            this.draw(c);
+            super.draw(c);
         }
     }
     return Hero;

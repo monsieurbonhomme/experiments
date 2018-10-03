@@ -4,9 +4,11 @@ define(['object'], function(Object) {
             super(x, y, z, size, color);
             this.shape = 'square';
             this.collisions = [];
+            this.radius = this.size / 2;
             this.velocity = {
                 x: 0,
-                y: 0
+                y: 0,
+                z: 0
             }
         }
 
@@ -17,12 +19,11 @@ define(['object'], function(Object) {
         checkCollisionWithCircle(t) {
             let deltaX = t.x - Math.max(this.x - this.size / 2, Math.min(t.x, this.x + this.size / 2));
             let deltaY = t.y - Math.max(this.y - this.size / 2, Math.min(t.y, this.y + this.size / 2));
-            return (deltaX * deltaX + deltaY * deltaY) < (t.radius * t.radius);
+            return (deltaX * deltaX + deltaY * deltaY) < (t.radius * t.radius) && Math.abs(this.z - t.z) < 2;
         }
 
         canCollidesWith(t) {
             let collisioner = {target: t};
-            console.log(t.shape);
             switch (t.shape) {
                 case 'square': collisioner.check = this.checkCollisionWithSquare; break;
                 case 'circle': collisioner.check = this.checkCollisionWithCircle; break;
@@ -30,24 +31,21 @@ define(['object'], function(Object) {
             this.collisions.push(collisioner)
         }
 
-        update(c) {
-            this.draw(c);
+        update() {
             for(let i = 0 ; i < this.collisions.length; i++) {
-                if(this.isColliding = this.collisions[i].check.bind(this)(this.collisions[i].target)) {
-                    this.velocity = this.collisions[i].target.velocity;
+                let t = this.collisions[i].target;
+                if(this.isColliding = this.collisions[i].check.bind(this)(t)) {
+                    this.velocity.x = t.velocity.x * 2;
+                    this.velocity.y = t.velocity.y * 2;
                 }
-
             }
-            this.x += this.velocity.x;
-            this.y += this.velocity.y;
-
-            this.velocity.x = this.velocity.x * .9;
-            this.velocity.y = this.velocity.y * .9;
+            super.update();
         }
 
         draw(c) {
+            super.draw(c)
             c.fillStyle = this.color;
-            c.fillRect(this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+            c.fillRect(this.x - this.size / 2, this.y - this.size / 2 - this.z, this.size, this.size);
         }
     }
     return Square;

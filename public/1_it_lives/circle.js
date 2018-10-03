@@ -5,7 +5,8 @@ define(['object', 'lib/constants'], function (Object, constants) {
             this.shape = 'circle';
             this.velocity = {
                 x: 0,
-                y: 0
+                y: 0,
+                z: 0
             }
         }
 
@@ -36,7 +37,11 @@ define(['object', 'lib/constants'], function (Object, constants) {
             this.y += missingY * direction.y;
         }
 
+        update() {
+            super.update();
+        }
         draw(c) {
+            super.draw(c);
             c.fillStyle = this.color;
             c.beginPath();
             c.arc(this.x, this.y, this.size / 2, 0, constants.completeCircle, false);
