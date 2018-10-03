@@ -1,9 +1,7 @@
-define([], function () {
-    class Circle {
-        constructor(x, y, size) {
-            this.x = x;
-            this.y = y;
-            this.size = size;
+define(['object', 'lib/constants'], function (Object, constants) {
+    class Circle extends Object {
+        constructor(x, y, size, color) {
+            super(x, y, 0, size, color);
             this.velocity = {
                 x: 0,
                 y: 0
@@ -35,6 +33,13 @@ define([], function () {
             let missingY = yPart * missingTotal;
             this.x += missingX * direction.x;
             this.y += missingY * direction.y;
+        }
+
+        draw(c) {
+            c.fillStyle = this.color;
+            c.beginPath();
+            c.arc(this.x, this.y, this.size / 2, 0, constants.completeCircle, false);
+            c.fill();
         }
     }
 

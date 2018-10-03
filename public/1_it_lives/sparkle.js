@@ -1,10 +1,8 @@
-define([], function() {
-    class Sparkle {
+define(['square'], function(Square) {
+    class Sparkle extends Square {
         constructor(x, y) {
+            super(x, y, 0, 3, 'rgb(0, 116, 217)');
             this.isDead = false;
-            this.size = 3;
-            this.x = x;
-            this.y = y;
             this.opacity = 1;
             this.fadeSpeed = 1;
         }
@@ -16,8 +14,9 @@ define([], function() {
             }
         }
         draw(c) {
-            c.fillStyle = 'rgba(0, 116, 217, ' + this.opacity + ')';
-            c.fillRect(this.x, this.y, this.size, this.size);
+            c.globalAlpha = Math.max(0, this.opacity);
+            super.draw(c);
+            c.globalAlpha = 1;
         }
     }
     return Sparkle;

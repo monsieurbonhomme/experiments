@@ -1,6 +1,6 @@
 require.config({
     paths: {
-        'lib': '/sources/js'
+        'lib': '../sources/js'
     }
 });
 require(['lib/constants', 'hero', 'gamepad', 'collideable', 'follower'], function(constants, Hero, GamepadHandler, CollideAble, Follower) {

@@ -1,9 +1,8 @@
-define(['./circle', 'lib/constants'], function(Circle, constants) {
+define(['./circle'], function(Circle) {
     class Follower extends Circle {
         constructor(target, length) {
-            super(50, 50, 10);
+            super(50, 50, 10, 'orange');
             this.target = target;
-            this.color = 'orange';
             this.minLength = length;
             this.tension = .1;
             this.speed = 1.5;
@@ -28,13 +27,6 @@ define(['./circle', 'lib/constants'], function(Circle, constants) {
             this.y += this.velocity.y;
 
             this.draw(c);
-        }
-
-        draw(c) {
-            c.fillStyle = 'rgb(' + (this.minLength + 100) + ',' + (this.minLength + 100) + ',' + (this.minLength + 100) + ')';
-            c.beginPath();
-            c.arc(this.x, this.y, this.size / 2, 0, constants.completeCircle, false);
-            c.fill();
         }
     }
     return Follower;

@@ -1,8 +1,7 @@
 define(['lib/constants', './circle'], function (constants, Circle) {
     class Collideable extends Circle{
         constructor(x, y, size) {
-            super(x, y, size);
-            this.color = '#85144b';
+            super(x, y, size, '#85144b');
             this.mass = .1;
             this.velocity = {
                 x: 0,
