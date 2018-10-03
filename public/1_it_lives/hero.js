@@ -1,4 +1,4 @@
-define(['lib/constants', './circle'], function(constants, Circle) {
+define(['lib/constants', './circle', 'sparkle'], function(constants, Circle, Sparkle) {
     function drawArrowhead(context, from, to, radius) {
         var x_center = to.x;
         var y_center = to.y;
@@ -9,19 +9,19 @@ define(['lib/constants', './circle'], function(constants, Circle) {
 
         context.beginPath();
 
-        angle = Math.atan2(to.y - from.y, to.x - from.x)
+        angle = Math.atan2(to.y - from.y, to.x - from.x);
         x = radius * Math.cos(angle) + x_center;
         y = radius * Math.sin(angle) + y_center;
 
         context.moveTo(x, y);
 
-        angle += (1.0/3.0) * (2 * Math.PI)
+        angle += (1.0/3.0) * (2 * Math.PI);
         x = radius * Math.cos(angle) + x_center;
         y = radius * Math.sin(angle) + y_center;
 
         context.lineTo(x, y);
 
-        angle += (1.0/3.0) * (2 * Math.PI)
+        angle += (1.0/3.0) * (2 * Math.PI);
         x = radius *Math.cos(angle) + x_center;
         y = radius *Math.sin(angle) + y_center;
 
@@ -38,7 +38,7 @@ define(['lib/constants', './circle'], function(constants, Circle) {
             this.color = '#0074D9';
             this.x = 100;
             this.y = 100;
-            this.speed = .7;
+            this.speed = .9;
             this.strength = 1;
             this.velocity = {
                 x: 5,
@@ -49,6 +49,8 @@ define(['lib/constants', './circle'], function(constants, Circle) {
                 y: 0
             };
             this.last = 0;
+            this.sparkles = [];
+            this.timer = 0;
         }
 
         updateVelocity(tax) {
@@ -83,6 +85,26 @@ define(['lib/constants', './circle'], function(constants, Circle) {
             c.beginPath();
             c.arc(this.x, this.y, this.size / 2, 0, constants.completeCircle, false);
             c.fill();
+        }
+
+        sparkle(c) {
+            if(this.timer % 1 === 0) {
+                this.sparkles.push(new Sparkle(this.x + Math.random() * this.radius - this.radius/2, this.y + Math.random() * this.radius - this.radius/2));
+                this.sparkles.push(new Sparkle(this.x + Math.random() * this.radius - this.radius/2, this.y + Math.random() * this.radius - this.radius/2));
+            }
+            for(let i = this.sparkles.length - 1; i >= 0; i--) {
+                let s = this.sparkles[i];
+                s.update(c);
+                if(s.isDead) {
+                    this.sparkles.splice(i, 1);
+                }
+            }
+        }
+
+        update(c) {
+            this.timer++;
+            this.sparkle(c);
+            this.draw(c);
         }
     }
     return Hero;

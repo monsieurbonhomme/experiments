@@ -9,16 +9,16 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable', 'follower'], functio
     let hero = new Hero();
     let g = new GamepadHandler();
     g.onInput(function(config) {
-        hero.move(config.axes.l)
+        hero.move(config.axes.l);
     });
-    let collideable = new CollideAble(300, 300, 20);
+    /*let collideable = new CollideAble(300, 300, 20);
     let collideable2 = new CollideAble(200, 300, 20);
     let collideable3 = new CollideAble(100, 300, 20);
     collideable.addCollider(hero);
     collideable2.addCollider(hero);
-    collideable3.addCollider(hero);
-    let followers = []
-    for (let i = 0; i < 4; i++) {
+    collideable3.addCollider(hero);*/
+    let followers = [];
+    for (let i = 0; i < 0; i++) {
         followers.push(new Follower(hero, (i+1) * 20))
     }
     function checkGameScreenCollision(t, bounce) {
@@ -44,17 +44,17 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable', 'follower'], functio
         c.fillRect(0, 0, canvas.width, canvas.height);
 
         checkGameScreenCollision(hero);
-        checkGameScreenCollision(collideable, true);
+        /*checkGameScreenCollision(collideable, true);
         checkGameScreenCollision(collideable2, true);
         checkGameScreenCollision(collideable3, true);
 
         collideable.update(c);
         collideable2.update(c);
-        collideable3.update(c);
+        collideable3.update(c);*/
         for (let i = 0; i < followers.length; i++) {
             followers[i].update(c)
         }
-        hero.draw(c);
+        hero.update(c);
     }
     gameLoop();
 });

@@ -15,7 +15,7 @@ define([], function () {
         }
 
         getHypWith(t) {
-            return Math.sqrt((t.x - this.x) * (t.x - this.x) + (t.y - this.y) * (t.y - this.y))
+            return Math.sqrt((t.x - this.x) * (t.x - this.x) + (t.y - this.y) * (t.y - this.y));
         }
 
         correctPosition(t) {
@@ -39,4 +39,4 @@ define([], function () {
     }
 
     return Circle;
-})
+});
