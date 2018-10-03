@@ -2,6 +2,7 @@ define(['object', 'lib/constants'], function (Object, constants) {
     class Circle extends Object {
         constructor(x, y, size, color) {
             super(x, y, 0, size, color);
+            this.shape = 'circle';
             this.velocity = {
                 x: 0,
                 y: 0

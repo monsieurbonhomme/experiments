@@ -1,15 +1,11 @@
 define(['./circle', 'sparkle'], function(Circle, Sparkle) {
-    class Hero extends Circle{
+    class Hero extends Circle {
         constructor() {
             super(100, 100, 20, '#0074D9');
             this.speed = .9;
             this.strength = 1;
             this.velocity = {
                 x: 5,
-                y: 0
-            };
-            this.force = {
-                x: 0,
                 y: 0
             };
             this.last = 0;
@@ -26,11 +22,6 @@ define(['./circle', 'sparkle'], function(Circle, Sparkle) {
 
         move(axes) {
             this.updateVelocity(.8);
-
-            this.force = {
-                x: axes[0],
-                y: axes[1]
-            };
 
             this.velocity.x += axes[0];
             this.velocity.y += axes[1];
@@ -54,7 +45,7 @@ define(['./circle', 'sparkle'], function(Circle, Sparkle) {
 
         update(c) {
             this.timer++;
-            this.sparkle(c);
+            //this.sparkle(c);
             this.draw(c);
         }
     }

@@ -3,7 +3,7 @@ require.config({
         'lib': '../sources/js'
     }
 });
-require(['lib/constants', 'hero', 'gamepad', 'collideable', 'follower'], function(constants, Hero, GamepadHandler, CollideAble, Follower) {
+require(['lib/constants', 'hero', 'gamepad', 'collideable', 'follower', 'chest'], function(constants, Hero, GamepadHandler, CollideAble, Follower, Chest) {
     const canvas = document.querySelector('canvas');
     const c = canvas.getContext('2d');
     let hero = new Hero();
@@ -11,6 +11,8 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable', 'follower'], functio
     g.onInput(function(config) {
         hero.move(config.axes.l);
     });
+    let ch = new Chest(300, 300);
+    ch.canCollidesWith(hero)
     /*let collideable = new CollideAble(300, 300, 20);
     let collideable2 = new CollideAble(200, 300, 20);
     let collideable3 = new CollideAble(100, 300, 20);
@@ -44,6 +46,7 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable', 'follower'], functio
         c.fillRect(0, 0, canvas.width, canvas.height);
 
         checkGameScreenCollision(hero);
+        ch.update(c)
         /*checkGameScreenCollision(collideable, true);
         checkGameScreenCollision(collideable2, true);
         checkGameScreenCollision(collideable3, true);
