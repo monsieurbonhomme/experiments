@@ -46,6 +46,12 @@ define([], function() {
             if(config.axes = this.getAxes(g)) {
                 trigger = true;
             }
+            if(config.a = g.buttons[0].pressed) {
+                trigger = true
+            }
+            if(config.b = g.buttons[1].pressed) {
+                trigger = true
+            }
 
             if(trigger) {
                 this.triggerEvents(config);

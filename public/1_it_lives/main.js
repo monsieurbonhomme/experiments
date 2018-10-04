@@ -8,8 +8,29 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable', 'follower', 'chest']
     const c = canvas.getContext('2d');
     let hero = new Hero();
     let g = new GamepadHandler();
+    let released = {
+        a: true,
+        b: true
+    }
     g.onInput(function(config) {
         hero.move(config.axes.l);
+        if(config.a) {
+            if(released.a) {
+                released.a = false;
+                chests.push(new Chest(Math.random() * canvas.width, Math.random() * (canvas.height - 68) + 68));
+                chests[chests.length - 1].canCollidesWith(hero)
+            }
+        } else {
+            released.a = true;
+        }
+        if(config.b) {
+            if(released.b) {
+                released.b = false;
+                chests.splice(0, 1)
+            }
+        } else {
+            released.b = true;
+        }
     });
     /*let collideable = new CollideAble(300, 300, 20);
     let collideable2 = new CollideAble(200, 300, 20);
