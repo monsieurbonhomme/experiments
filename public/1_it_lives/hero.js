@@ -8,9 +8,17 @@ define(['./collideable-circle', 'sparkle'], function(CollideableCircle, Sparkle)
             this.timer = 0;
         }
 
-        move(axes) {
-            this.velocity.x += axes[0] * this.speed;
-            this.velocity.y += axes[1] * this.speed;
+        move(axes, trigger) {
+            trigger = trigger || 0;
+            this.velocity.x += axes[0] * this.speed * (1 + trigger);
+            this.velocity.y += axes[1] * this.speed * (1 + trigger);
+        }
+
+        justCollidedWith(t) {
+            switch (t.type) {
+                case 'pickup': this.size += 1; break;
+                default: break;
+            }
         }
 
         sparkle(c) {

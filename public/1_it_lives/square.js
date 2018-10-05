@@ -35,11 +35,15 @@ define(['object'], function(Object) {
             for(let i = 0 ; i < this.collisions.length; i++) {
                 let t = this.collisions[i].target;
                 if(this.isColliding = this.collisions[i].check.bind(this)(t)) {
-                    this.velocity.x = t.velocity.x * 2;
-                    this.velocity.y = t.velocity.y * 2;
+                    this.onCollision(t);
                 }
             }
             super.move();
+        }
+
+        onCollision(t) {
+            this.velocity.x = t.velocity.x * 2;
+            this.velocity.y = t.velocity.y * 2;
         }
 
         draw(c) {

@@ -13,7 +13,7 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable-circle', 'follower', '
         b: true
     }
     g.onInput(function(config) {
-        hero.move(config.axes.l);
+        hero.move(config.axes.l, config.triggers.r);
         if(config.a) {
             if(released.a) {
                 released.a = false;
@@ -44,7 +44,7 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable-circle', 'follower', '
     canvas.height = 400;
     for (let i = 0; i < 12; i++) {
         chests.push(new Chest(Math.random() * canvas.width, Math.random() * (canvas.height - 68) + 68));
-        chests[i].canCollidesWith(hero)
+        chests[i].canCollidesWith(hero);
 //followers.push(new Follower(hero, (i+1) * 20))
     }
     function checkGameScreenCollision(t, bounce) {

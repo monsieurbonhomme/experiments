@@ -39,10 +39,6 @@ define(['lib/constants', './circle'], function (constants, Circle) {
             };
             let xDist = (this.x - t.x);
             let yDist = (this.x  - t.x);
-            let part = xDist + yDist;
-            let xPart = xDist / part;
-            let yPart = yDist / part;
-
             let velo = Math.abs(t.velocity.x + t.velocity.y);
             let strengthDif = Math.max((t.strength - this.mass), 0);
             this.velocity.x = xDist / yDist * velo * direction.x * strengthDif;

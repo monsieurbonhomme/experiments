@@ -19,10 +19,14 @@ define([], function() {
             return Math.abs(length) > this.axisSafeZone ? length : 0;
         }
 
-        getAxes(g) {
-            if(this.lo) {
-                this.lo = false;
+        getTriggers(g) {
+            if(g.buttons[7].pressed || g.buttons[6].pressed) {
+                return {l: g.buttons[6].value, r: g.buttons[7].value}
             }
+            return false;
+        }
+
+        getAxes(g) {
             let toReturn = {
                 l: [this.getAxeLength(g.axes[0]), this.getAxeLength(g.axes[1])]
             };
@@ -51,6 +55,10 @@ define([], function() {
             }
             if(config.b = g.buttons[1].pressed) {
                 trigger = true
+            }
+            config.triggers = {};
+            if(config.triggers = this.getTriggers(g)) {
+                trigger = true;
             }
 
             if(trigger) {
