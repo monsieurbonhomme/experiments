@@ -25,7 +25,7 @@ define(['object', 'lib/constants'], function (Object, constants) {
             super.draw(c);
             c.fillStyle = this.color;
             c.beginPath();
-            c.arc(this.x, this.y, this.size / 2, 0, constants.completeCircle, false);
+            c.arc(this.x, this.y - this.z, this.size / 2, 0, constants.completeCircle, false);
             c.fill();
             c.shadowColor = 'transparent';
             c.shadowBlur = 0;

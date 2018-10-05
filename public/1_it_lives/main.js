@@ -13,7 +13,8 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable-circle', 'follower', '
         b: true
     }
     g.onInput(function(config) {
-        hero.move(config.axes.l, config.triggers.r);
+        hero.move(config.axes, config.triggers, config.a)
+        return;
         if(config.a) {
             if(released.a) {
                 released.a = false;
@@ -32,20 +33,12 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable-circle', 'follower', '
             released.b = true;
         }
     });
-    let collideable = new CollideAbleCircle(300, 300, 20);
-    collideable.addCollider(hero);
-    /*let collideable2 = new CollideAble(200, 300, 20);
-        let collideable3 = new CollideAble(100, 300, 20);
-        collideable2.addCollider(hero);
-        collideable3.addCollider(hero);*/
-    let followers = [];
     let chests = [];
     canvas.width = 800;
     canvas.height = 400;
     for (let i = 0; i < 12; i++) {
         chests.push(new Chest(Math.random() * canvas.width, Math.random() * (canvas.height - 68) + 68));
         chests[i].canCollidesWith(hero);
-//followers.push(new Follower(hero, (i+1) * 20))
     }
     function checkGameScreenCollision(t, bounce) {
         if(t.x - t.radius < 0) {
@@ -75,17 +68,6 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable-circle', 'follower', '
         c.fillRect(0, 0, canvas.width, 68);
 
         checkGameScreenCollision(hero);
-        collideable.update();
-        collideable.draw(c);
-        /*checkGameScreenCollision(collideable, true);
-                checkGameScreenCollision(collideable2, true);
-                checkGameScreenCollision(collideable3, true);
-
-                collideable2.update(c);
-                collideable3.update(c);*/
-        for (let i = 0; i < followers.length; i++) {
-            followers[i].update(c)
-        }
         for (let i = 0; i < chests.length; i++) {
             chests[i].update(c);
             checkGameScreenCollision(chests[i], true)

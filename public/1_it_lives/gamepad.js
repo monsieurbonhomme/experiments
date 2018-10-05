@@ -28,7 +28,8 @@ define([], function() {
 
         getAxes(g) {
             let toReturn = {
-                l: [this.getAxeLength(g.axes[0]), this.getAxeLength(g.axes[1])]
+                l: [this.getAxeLength(g.axes[0]), this.getAxeLength(g.axes[1])],
+                r: [this.getAxeLength(g.axes[2]), this.getAxeLength(g.axes[3])]
             };
             return toReturn;
         }
@@ -56,8 +57,8 @@ define([], function() {
             if(config.b = g.buttons[1].pressed) {
                 trigger = true
             }
-            config.triggers = {};
-            if(config.triggers = this.getTriggers(g)) {
+            config.triggers = this.getTriggers(g) || {};
+            if(config.triggers) {
                 trigger = true;
             }
 

@@ -1,4 +1,4 @@
-define(['./collideable-circle', 'sparkle'], function(CollideableCircle, Sparkle) {
+define(['./collideable-circle', 'sparkle', 'bullet'], function(CollideableCircle, Sparkle, Bullet) {
     class Hero extends CollideableCircle {
         constructor() {
             super(100, 100, 20, '#0074D9', 5);
@@ -6,12 +6,24 @@ define(['./collideable-circle', 'sparkle'], function(CollideableCircle, Sparkle)
             this.strength = 1;
             this.sparkles = [];
             this.timer = 0;
+            this.shootDirection = {
+                x: 1,
+                y: 0
+            }
+            this.shootTimer = 0;
+            this.shootRate = 10;
+            this.bullets = [];
         }
 
-        move(axes, trigger) {
-            trigger = trigger || 0;
-            this.velocity.x += axes[0] * this.speed * (1 + trigger);
-            this.velocity.y += axes[1] * this.speed * (1 + trigger);
+        move(axes, triggers, shooting) {
+            triggers.r = triggers.r || 0;
+            this.isShooting = shooting;
+            this.velocity.x += axes.l[0] * this.speed * (1 + triggers.r);
+            this.velocity.y += axes.l[1] * this.speed * (1 + triggers.r);
+            if(Math.abs(axes.r[0]) + Math.abs(axes.r[1]) > 0.8) {
+                this.shootDirection.x = axes.r[0];
+                this.shootDirection.y = axes.r[1];
+            }
         }
 
         justCollidedWith(t) {
@@ -35,7 +47,26 @@ define(['./collideable-circle', 'sparkle'], function(CollideableCircle, Sparkle)
             }
         }
 
+        shoot() {
+            if(this.shootTimer % this.shootRate === 0) {
+                this.bullets.push(new Bullet(this.x, this.y, this.shootDirection, 1));
+            }
+        }
+
         update(c) {
+            this.shootTimer++;
+            if(this.isShooting){
+                this.shoot();
+            }
+            for(let i = this.bullets.length; i--;) {
+                let bullet = this.bullets[i];
+                if(bullet.isDead) {
+                    this.bullets.splice(i, 1)
+                } else {
+                    bullet.update();
+                    bullet.draw(c)
+                }
+            }
             super.update();
             this.sparkle(c);
             super.draw(c);

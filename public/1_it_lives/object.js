@@ -9,10 +9,16 @@ define([], function() {
             this.color = color;
         }
 
+        isOutOfScreen() {
+            return this.x < 0 || this.x > 2000 || this.y < 0 || this.y > 2000;
+        }
+
         move() {
             this.x += this.velocity.x;
             this.y += this.velocity.y;
-            this.z = Math.max(0, this.z + this.velocity.z);
+            if(!this.fly) {
+                this.z = Math.max(0, this.z + this.velocity.z);
+            }
 
             this.velocity.x = this.velocity.x * .9;
             this.velocity.y = this.velocity.y * .9;
