@@ -3,7 +3,7 @@ require.config({
         'lib': '../sources/js'
     }
 });
-require(['lib/constants', 'hero', 'gamepad', 'collideable', 'follower', 'chest'], function(constants, Hero, GamepadHandler, CollideAble, Follower, Chest) {
+require(['lib/constants', 'hero', 'gamepad', 'collideable-circle', 'follower', 'chest'], function(constants, Hero, GamepadHandler, CollideAbleCircle, Follower, Chest) {
     const canvas = document.querySelector('canvas');
     const c = canvas.getContext('2d');
     let hero = new Hero();
@@ -32,12 +32,12 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable', 'follower', 'chest']
             released.b = true;
         }
     });
-    /*let collideable = new CollideAble(300, 300, 20);
-    let collideable2 = new CollideAble(200, 300, 20);
-    let collideable3 = new CollideAble(100, 300, 20);
+    let collideable = new CollideAbleCircle(300, 300, 20);
     collideable.addCollider(hero);
-    collideable2.addCollider(hero);
-    collideable3.addCollider(hero);*/
+    /*let collideable2 = new CollideAble(200, 300, 20);
+        let collideable3 = new CollideAble(100, 300, 20);
+        collideable2.addCollider(hero);
+        collideable3.addCollider(hero);*/
     let followers = [];
     let chests = [];
     canvas.width = 800;
@@ -75,13 +75,14 @@ require(['lib/constants', 'hero', 'gamepad', 'collideable', 'follower', 'chest']
         c.fillRect(0, 0, canvas.width, 68);
 
         checkGameScreenCollision(hero);
+        collideable.update();
+        collideable.draw(c);
         /*checkGameScreenCollision(collideable, true);
-        checkGameScreenCollision(collideable2, true);
-        checkGameScreenCollision(collideable3, true);
+                checkGameScreenCollision(collideable2, true);
+                checkGameScreenCollision(collideable3, true);
 
-        collideable.update(c);
-        collideable2.update(c);
-        collideable3.update(c);*/
+                collideable2.update(c);
+                collideable3.update(c);*/
         for (let i = 0; i < followers.length; i++) {
             followers[i].update(c)
         }

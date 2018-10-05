@@ -1,7 +1,7 @@
 define(['square'], function(Square) {
     class Sparkle extends Square {
         constructor(x, y) {
-            super(x, y, 0, 3, 'rgb(0, 116, 217)');
+            super(x, y, 0, 3, 'rgb(0, 116, 217)', 0);
             this.isDead = false;
             this.opacity = 1;
             this.fadeSpeed = 1;

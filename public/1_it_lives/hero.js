@@ -1,7 +1,7 @@
-define(['./circle', 'sparkle'], function(Circle, Sparkle) {
-    class Hero extends Circle {
+define(['./collideable-circle', 'sparkle'], function(CollideableCircle, Sparkle) {
+    class Hero extends CollideableCircle {
         constructor() {
-            super(100, 100, 20, '#0074D9');
+            super(100, 100, 20, '#0074D9', 5);
             this.speed = .4;
             this.strength = 1;
             this.sparkles = [];
@@ -29,7 +29,7 @@ define(['./circle', 'sparkle'], function(Circle, Sparkle) {
 
         update(c) {
             super.update();
-            //this.sparkle(c);
+            this.sparkle(c);
             super.draw(c);
         }
     }

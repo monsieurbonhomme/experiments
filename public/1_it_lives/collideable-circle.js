@@ -1,12 +1,8 @@
 define(['lib/constants', './circle'], function (constants, Circle) {
-    class Collideable extends Circle{
-        constructor(x, y, size) {
-            super(x, y, size, '#85144b');
-            this.mass = .1;
-            this.velocity = {
-                x: 0,
-                y: 0
-            };
+    class CollideableCircle extends Circle{
+        constructor(x, y, size, color, height, mass) {
+            super(x, y, size, color, height);
+            this.mass = mass || .1;
             this.collisionChecks = [];
         }
 
@@ -15,10 +11,7 @@ define(['lib/constants', './circle'], function (constants, Circle) {
         }
 
         isColliding(t) {
-            return ((this.x - t.x) * (this.x - t.x) + (this.y - t.y) * (this.y - t.y) < ((this.size + t.size) / 2) * ((this.size + t.size) / 2));
-        }
-        get radius() {
-            return this.size / 2;
+            return ((this.x - t.x) * (this.x - t.x) + (this.y - t.y) * (this.y - t.y) < ((this.size + t.size) / 2) * ((this.size + t.size) / 2)) && (this.z < t.z + t.height && this.z + this.height > t.z) ;
         }
 
         correctPosition(t) {
@@ -45,14 +38,15 @@ define(['lib/constants', './circle'], function (constants, Circle) {
                 y: this.y < t.y ? -1 : 1,
             };
             let xDist = (this.x - t.x);
-            let yDist = (this.x - t.x);
+            let yDist = (this.x  - t.x);
             let part = xDist + yDist;
             let xPart = xDist / part;
-            let yPart = 1 - xPart;
+            let yPart = yDist / part;
 
-            let velo = Math.abs(t.velocity.x + t.velocity.y) * Math.max((t.strength - this.mass), 0);
-            this.velocity.x = xPart * velo * direction.x;
-            this.velocity.y = yPart * velo * direction.y;
+            let velo = Math.abs(t.velocity.x + t.velocity.y);
+            let strengthDif = Math.max((t.strength - this.mass), 0);
+            this.velocity.x = xDist / yDist * velo * direction.x * strengthDif;
+            this.velocity.y = yDist / xDist * velo * direction.y * strengthDif;
 
         }
 
@@ -69,23 +63,11 @@ define(['lib/constants', './circle'], function (constants, Circle) {
 
         update(c) {
             this.checkCollisions();
-            this.move();
-            this.draw(c);
+            super.move();
         }
-
-        move() {
-            this.x += this.velocity.x;
-            this.y += this.velocity.y;
-            this.velocity.x = this.velocity.x * 0.9;
-            this.velocity.y = this.velocity.y * 0.9;
-        }
-
         draw(c) {
-            c.fillStyle = this.color;
-            c.beginPath();
-            c.arc(this.x, this.y, this.size / 2, 0, constants.completeCircle, false);
-            c.fill();
+            super.draw(c)
         }
     }
-    return Collideable;
+    return CollideableCircle;
 });

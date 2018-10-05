@@ -1,7 +1,7 @@
 define(['object'], function(Object) {
     class Square extends Object{
-        constructor(x, y, z, size, color) {
-            super(x, y, z, size, color);
+        constructor(x, y, z, size, color, height) {
+            super(x, y, z, size, color, height);
             this.shape = 'square';
             this.collisions = [];
             this.radius = this.size / 2;
@@ -39,13 +39,17 @@ define(['object'], function(Object) {
                     this.velocity.y = t.velocity.y * 2;
                 }
             }
-            super.update();
+            super.move();
         }
 
         draw(c) {
             super.draw(c)
             c.fillStyle = this.color;
             c.fillRect(this.x - this.size / 2, this.y - this.size / 2 - this.z, this.size, this.size);
+            c.shadowColor = 'transparent';
+            c.shadowBlur = 0;
+            c.shadowOffsetX = 0;
+            c.shadowOffsetY = 0;
         }
     }
     return Square;

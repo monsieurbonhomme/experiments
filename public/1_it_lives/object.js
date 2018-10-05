@@ -1,14 +1,15 @@
 define([], function() {
     class Object {
-        constructor(x, y, z, size, color) {
+        constructor(x, y, z, size, color, height) {
             this.x = x;
             this.y = y;
             this.z = z;
             this.size = size;
+            this.height = height || this.size;
             this.color = color;
         }
 
-        update() {
+        move() {
             this.x += this.velocity.x;
             this.y += this.velocity.y;
             this.z = Math.max(0, this.z + this.velocity.z);
