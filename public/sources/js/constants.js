@@ -1,7 +1,7 @@
 define({
     canvas: {
         colors: {
-            background: '#aaa'
+            background: '#eee'
         }
     },
     completeCircle: 2 * Math.PI
