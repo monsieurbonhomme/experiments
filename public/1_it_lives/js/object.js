@@ -5,6 +5,7 @@ define([], function() {
             this.y = y;
             this.z = z;
             this.size = size;
+            this.opacity = 1;
             this.height = height || this.size;
             this.color = color;
         }

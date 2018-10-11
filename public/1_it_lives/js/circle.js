@@ -24,6 +24,7 @@ define(['object', 'lib/constants'], function (Object, constants) {
         draw(c) {
             super.draw(c);
             c.fillStyle = this.color;
+            c.globalAlpha = this.opacity;
             c.beginPath();
             c.arc(this.x, this.y - this.z, this.size / 2, 0, constants.completeCircle, false);
             c.fill();
@@ -31,6 +32,7 @@ define(['object', 'lib/constants'], function (Object, constants) {
             c.shadowBlur = 0;
             c.shadowOffsetX = 0;
             c.shadowOffsetY = 0;
+            c.globalAlpha = 1;
         }
     }
 

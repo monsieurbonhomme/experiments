@@ -4,14 +4,26 @@ define(['lib/constants', './circle'], function (constants, Circle) {
             super(x, y, size, color, height);
             this.mass = mass || .1;
             this.collisionChecks = [];
+            this.timer = 0
         }
 
-        addCollider(t) {
-            this.collisionChecks.push(t);
+        canCollidesWith(t, cb) {
+            let check;
+            switch (t.shape) {
+                case 'square': check = this.isSquareColliding; break;
+                case 'circle': check = this.isCircleColliding; break;
+            }
+            this.collisionChecks.push({target: t, cb: cb, check: check});
         }
 
-        isColliding(t) {
-            return ((this.x - t.x) * (this.x - t.x) + (this.y - t.y) * (this.y - t.y) < ((this.size + t.size) / 2) * ((this.size + t.size) / 2)) && (this.z < t.z + t.height && this.z + this.height > t.z) ;
+        isSquareColliding(t) {
+            let deltaX = t.x - Math.max(this.x - this.size / 2, Math.min(t.x, this.x + this.size / 2));
+            let deltaY = t.y - Math.max(this.y - this.size / 2, Math.min(t.y, this.y + this.size / 2));
+            return (deltaX * deltaX + deltaY * deltaY) < (t.radius * t.radius) && Math.abs(this.z - t.z) < 2;
+        }
+
+        isCircleColliding(t) {
+            return ((this.x - t.x) * (this.x - t.x) + (this.y - t.y) * (this.y - t.y)) < (this.radius + t.radius) * (this.radius + t.radius);
         }
 
         correctPosition(t) {
@@ -30,6 +42,7 @@ define(['lib/constants', './circle'], function (constants, Circle) {
             let missingY = yPart * missingTotal;
             this.x += missingX * direction.x;
             this.y += missingY * direction.y;
+
         }
 
         slipsWith(t) {
@@ -47,12 +60,11 @@ define(['lib/constants', './circle'], function (constants, Circle) {
         }
 
         checkCollisions() {
+            this.timer++;
             for(let i = 0; i < this.collisionChecks.length; i++) {
-                if(this.isColliding(this.collisionChecks[i])) {
-                    this.collisionChecks[i].correctPosition(this);
-                    if(this.mass < this.collisionChecks[i].strength) {
-                        this.slipsWith(this.collisionChecks[i]);
-                    }
+                let t = this.collisionChecks[i].target;
+                if(this.collisionChecks[i].check.bind(this)(t)) {
+                    this.collisionChecks[i].cb(this);
                 }
             }
         }

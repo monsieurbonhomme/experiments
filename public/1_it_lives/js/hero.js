@@ -15,15 +15,14 @@ define(['./collideable-circle', 'sparkle', 'bullet'], function(CollideableCircle
             this.bullets = [];
         }
 
-        move(axes, triggers, shooting) {
-            triggers.r = triggers.r || 0;
-            this.isShooting = shooting;
-            this.velocity.x += axes.l[0] * this.speed * (1 + triggers.r);
-            this.velocity.y += axes.l[1] * this.speed * (1 + triggers.r);
-            if(Math.abs(axes.r[0]) + Math.abs(axes.r[1]) > 0.8) {
-                this.shootDirection.x = axes.r[0];
-                this.shootDirection.y = axes.r[1];
-            }
+        staticMove(axes) {
+            this.x += axes[0] * 2;
+            this.y += axes[1] * 2;
+        }
+
+        velocityMove(axes) {
+            this.velocity.x += axes[0] * this.speed;
+            this.velocity.y += axes[1] * this.speed;
         }
 
         justCollidedWith(t) {
@@ -68,7 +67,6 @@ define(['./collideable-circle', 'sparkle', 'bullet'], function(CollideableCircle
                 }
             }
             super.update();
-            this.sparkle(c);
             super.draw(c);
         }
     }

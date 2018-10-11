@@ -12,7 +12,7 @@ define([], function() {
         }
 
         onInput(cb) {
-            this.listeners.push(cb);
+            this.listeners[0] = cb;
         }
 
         getAxeLength(length) {
