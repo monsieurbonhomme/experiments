@@ -1,13 +1,20 @@
 define([], function() {
     class Object {
-        constructor(x, y, z, size, color, height) {
+        constructor(x, y, z, width, height, color, depth) {
             this.x = x;
             this.y = y;
             this.z = z;
-            this.size = size;
+            this.width = width;
+            this.height = height;
             this.opacity = 1;
-            this.height = height || this.size;
+            this.depth = depth || height;
             this.color = color;
+            this.velocity = {
+                x: 0,
+                y: 0,
+                z: 0
+            };
+            this.fly = false;
         }
 
         isOutOfScreen() {
@@ -28,10 +35,12 @@ define([], function() {
             }
         }
         draw(c) {
-            c.shadowColor = 'rgba(100, 100, 100, ' + Math.max(0, (50 - this.z) / 50) + ')';
-            c.shadowBlur = this.z + 2;
-            c.shadowOffsetX = 0;
-            c.shadowOffsetY = this.z + 2;
+            if(this.hasShadow) {
+                c.shadowColor = 'rgba(100, 100, 100, ' + Math.max(0, (50 - this.z) / 50) + ')';
+                c.shadowBlur = this.z + 2;
+                c.shadowOffsetX = 0;
+                c.shadowOffsetY = this.z + 2;
+            }
         }
     }
     return Object;

@@ -23,6 +23,7 @@ require(['chapters', 'lib/constants', 'gamepad'], function(chapters, constants, 
     function beginChapter(index) {
         game.currentChapter = index;
         game.foreground.opacity = 1;
+        game.chapterConfig = chapters[index].config || {};
         chapters[index].initialize(game);
     }
     function gameLoop() {
@@ -49,5 +50,8 @@ require(['chapters', 'lib/constants', 'gamepad'], function(chapters, constants, 
         game.context.globalAlpha = 1;
     }
     beginChapter(0);
+    beginChapter(1);
+    beginChapter(2);
+    // beginChapter(3);
     gameLoop();
 });

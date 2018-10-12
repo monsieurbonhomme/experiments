@@ -1,13 +1,8 @@
 define(['object', 'lib/constants'], function (Object, constants) {
     class Circle extends Object {
-        constructor(x, y, size, color, height) {
-            super(x, y, 0, size, color, height);
+        constructor(x, y, size, color, depth) {
+            super(x, y, 0, size, size, color, depth);
             this.shape = 'circle';
-            this.velocity = {
-                x: 0,
-                y: 0,
-                z: 0
-            }
         }
 
         get radius() {

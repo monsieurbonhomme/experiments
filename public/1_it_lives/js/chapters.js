@@ -1,4 +1,4 @@
-define(['hero', 'collideable-circle'], function (Hero, CCircle) {
+define(['hero', 'collideable-circle', 'trap'], function (Hero, CCircle, Trap) {
     function inspectBorderCollision(game, t, bounce) {
         if(t.x - t.radius < 0) {
             t.velocity.x = bounce ? -t.velocity.x : 0;
@@ -50,6 +50,7 @@ define(['hero', 'collideable-circle'], function (Hero, CCircle) {
         name: 'It is blocked',
         initialize: function(game) {
             game.hero.size = 20;
+            game.hero.opacity = 1;
             game.hero.move = game.hero.staticMove;
             game.gamepad.handler.onInput(function(config) {
                 if(config.axes.l) {
@@ -79,7 +80,7 @@ define(['hero', 'collideable-circle'], function (Hero, CCircle) {
                 button: new CCircle(30, game.canvas.height - 30, 20, '#FFDC00', 0, 0)
             };
             game.chapterConfig.button.canCollidesWith(game.hero, function() {
-                game.hero.color = 'red';
+                game.nextChapter = true;
             });
         },
         beforeRender: function() {
@@ -89,9 +90,55 @@ define(['hero', 'collideable-circle'], function (Hero, CCircle) {
             game.chapterConfig.button.draw(game.context);
             game.hero.update(game.context);
             game.chapterConfig.button.update(game.context);
+            game.chapterConfig.button.draw(game.context);
             inspectBorderCollision(game, game.hero, true);
         },
         afterRender: function() {
+
+        }
+    },{
+        name: 'It collides',
+        config:  {
+            trapsConfig: [{
+                x: 0,
+                y: 0,
+                moves: {
+                    x: 200,
+                    y: 390
+                },
+                height: 10,
+                width: 20,
+                speed: 1,
+                easing: 'ease-in-out'
+            }],
+            traps: []
+        },
+        initialize: function(game) {
+            game.chapterConfig.button = new CCircle(game.canvas.width - 30, 30, 20, '#FFDC00', 0, 0);
+            game.chapterConfig.button.canCollidesWith(game.hero, function() {
+                game.hero.color = 'red';
+//                game.nextChapter = true;
+            });
+            for(let i = 0; i < game.chapterConfig.trapsConfig.length; i++) {
+                let trapConfig = game.chapterConfig.trapsConfig[i];
+                game.chapterConfig.traps.push(new Trap(trapConfig));
+                console.log(game.chapterConfig.trapsConfig.length)
+            }
+        },
+        beforeRender: function () {
+
+        },
+        render: function (game) {
+            game.chapterConfig.button.draw(game.context);
+            game.hero.update(game.context);
+            game.chapterConfig.button.update(game.context);
+            for(let i = 0; i < game.chapterConfig.traps.length; i++) {
+                game.chapterConfig.traps[i].draw(game.context);
+                game.chapterConfig.traps[i].update(game.context);
+            }
+            inspectBorderCollision(game, game.hero, true);
+        },
+        afterRender: function () {
 
         }
     }]
