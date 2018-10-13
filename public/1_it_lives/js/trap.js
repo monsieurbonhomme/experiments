@@ -1,7 +1,7 @@
 define(['collideable-rectangle'], function(CRectangle) {
     class Trap extends CRectangle {
         constructor(config) {
-            super(config.x, config.y, 0, config.width, config.height, '#FF4136');
+            super(config.x, config.y, 0, config.width, config.height, '#85144b');
             this.timer = config.timer || 0;
             this.easing = config.easing || 'linear';
             this.moves = {
@@ -35,11 +35,12 @@ define(['collideable-rectangle'], function(CRectangle) {
             if(this.timer >= this.iteration || this.timer < 0) {
                 this.onEndLoop();
             }
-            this.x = this.moves.from[0] + this.moves.to[0] * (this.timer / this.iteration);
-            this.y = this.moves.from[1] + this.moves.to[1] * (this.timer / this.iteration);
+            this.x = this.moves.from[0] + (this.moves.to[0] - this.moves.from[0]) * (this.timer / this.iteration);
+            this.y = this.moves.from[1] + (this.moves.to[1] - this.moves.from[1]) * (this.timer / this.iteration);
         }
 
         update() {
+            super.update();
             this.timer += this.speed;
             this.move();
 

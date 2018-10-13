@@ -9,7 +9,7 @@ define(['./collideable-circle', 'sparkle', 'bullet'], function(CollideableCircle
             this.shootDirection = {
                 x: 1,
                 y: 0
-            }
+            };
             this.shootTimer = 0;
             this.shootRate = 10;
             this.bullets = [];
